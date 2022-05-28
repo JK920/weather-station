@@ -5,7 +5,7 @@ import 'dart:convert';
 
 Future<Album> fetchAlbum() async {
   final response = await http.get(Uri.parse(
-      'https://api.thingspeak.com/channels/1743946/fields/1.json?results=2'));
+      'https://api.thingspeak.com/channels/1743946/feeds.json?results=2'));
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
@@ -120,13 +120,27 @@ class Feeds {
   String? createdAt;
   int? entryId;
   String? field1;
+  String? field2;
+  String? field3;
+  String? field4;
+  String? field5;
+  String? field6;
+  String? field7;
+  
 
-  Feeds({this.createdAt, this.entryId, this.field1});
+  Feeds({this.createdAt, this.entryId, this.field1, this.field2, this.field3, this.field4, this.field5, this.field6, this.field7});
 
   Feeds.fromJson(Map<String, dynamic> json) {
     createdAt = json['created_at'];
     entryId = json['entry_id'];
     field1 = json['field1'];
+    field2 = json['field2'];
+    field3 = json['field3'];
+    field4 = json['field4'];
+    field5 = json['field5'];
+    field6 = json['field6'];
+    field7 = json['field7'];
+
   }
 
   Map<String, dynamic> toJson() {
@@ -134,6 +148,12 @@ class Feeds {
     data['created_at'] = this.createdAt;
     data['entry_id'] = this.entryId;
     data['field1'] = this.field1;
+    data['field2'] = this.field2;
+    data['field3'] = this.field3;
+    data['field4'] = this.field4;
+    data['field5'] = this.field5;
+    data['field6'] = this.field6;
+    data['field7'] = this.field7;
     return data;
   }
 }
@@ -160,6 +180,7 @@ class _MyAppState extends State<MyApp> {
 
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Weather Station',
       home: Scaffold(
         appBar: AppBar(
@@ -225,7 +246,7 @@ class _MyAppState extends State<MyApp> {
                                     builder: (context, snapshot) {
                                       if (snapshot.hasData) {
                                         
-                                        return Text(snapshot.data!.channel!.id.toString());
+                                        return Text('${snapshot.data!.feeds![1].field1.toString()} °C');
                                       } else if (snapshot.hasError) {
                                         return Text('${snapshot.error}');
                                       }
@@ -289,7 +310,7 @@ class _MyAppState extends State<MyApp> {
                                     future: futureAlbum,
                                     builder: (context, snapshot) {
                                       if (snapshot.hasData) {
-                                        return Text(snapshot.data!.channel!.field2.toString());
+                                        return Text('${snapshot.data!.feeds![1].field2.toString()} hPa');
                                       } else if (snapshot.hasError) {
                                         return Text('${snapshot.error}');
                                       }
@@ -353,7 +374,7 @@ class _MyAppState extends State<MyApp> {
                                     future: futureAlbum,
                                     builder: (context, snapshot) {
                                       if (snapshot.hasData) {
-                                        return Text(snapshot.data!.channel!.field3.toString());
+                                        return Text('${snapshot.data!.feeds![1].field3.toString()} m');
                                       } else if (snapshot.hasError) {
                                         return Text('${snapshot.error}');
                                       }
@@ -417,7 +438,7 @@ class _MyAppState extends State<MyApp> {
                                     future: futureAlbum,
                                     builder: (context, snapshot) {
                                       if (snapshot.hasData) {
-                                        return Text(snapshot.data!.channel!.field4.toString());
+                                        return Text('${snapshot.data!.feeds![1].field4.toString()} ppm');
                                       } else if (snapshot.hasError) {
                                         return Text('${snapshot.error}');
                                       }
@@ -481,7 +502,7 @@ class _MyAppState extends State<MyApp> {
                                     future: futureAlbum,
                                     builder: (context, snapshot) {
                                       if (snapshot.hasData) {
-                                        return Text(snapshot.data!.channel!.field6.toString());
+                                        return Text('${snapshot.data!.feeds![1].field5.toString()} ppm');
                                       } else if (snapshot.hasError) {
                                         return Text('${snapshot.error}');
                                       }
@@ -535,7 +556,7 @@ class _MyAppState extends State<MyApp> {
                         ),
                         Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(12, 0, 12, 0),
+                                EdgeInsetsDirectional.fromSTEB(20, 0, 12, 0),
                             child: Column(
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -545,7 +566,7 @@ class _MyAppState extends State<MyApp> {
                                     future: futureAlbum,
                                     builder: (context, snapshot) {
                                       if (snapshot.hasData) {
-                                        return Text(snapshot.data!.channel!.field7.toString());
+                                        return Text('${snapshot.data!.feeds![1].field7.toString().trimRight()} lx');
                                       } else if (snapshot.hasError) {
                                         return Text('${snapshot.error}');
                                       }
@@ -609,7 +630,7 @@ class _MyAppState extends State<MyApp> {
                                     future: futureAlbum,
                                     builder: (context, snapshot) {
                                       if (snapshot.hasData) {
-                                        return Text(snapshot.data!.channel!.field6.toString());
+                                        return Text(snapshot.data!.feeds![1].field6.toString());
                                       } else if (snapshot.hasError) {
                                         return Text('${snapshot.error}');
                                       }
